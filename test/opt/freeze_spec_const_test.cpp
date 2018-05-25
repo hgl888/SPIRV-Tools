@@ -54,14 +54,14 @@ INSTANTIATE_TEST_CASE_P(
          "%int_1 = OpConstant %int 1"},
         {"%uint = OpTypeInt 32 0", "%2 = OpSpecConstant %uint 1",
          "%uint_1 = OpConstant %uint 1"},
-        {"%float = OpTypeFloat 32", "%2 = OpSpecConstant %float 3.14",
-         "%float_3_14 = OpConstant %float 3.14"},
-        {"%double = OpTypeFloat 64", "%2 = OpSpecConstant %double 3.1415926",
-         "%double_3_1415926 = OpConstant %double 3.1415926"},
+        {"%float = OpTypeFloat 32", "%2 = OpSpecConstant %float 3.1415",
+         "%float_3_1415 = OpConstant %float 3.1415"},
+        {"%double = OpTypeFloat 64", "%2 = OpSpecConstant %double 3.141592653",
+         "%double_3_141592653 = OpConstant %double 3.141592653"},
         {"%bool = OpTypeBool", "%2 = OpSpecConstantTrue %bool",
-         "%2 = OpConstantTrue %bool"},
+         "%true = OpConstantTrue %bool"},
         {"%bool = OpTypeBool", "%2 = OpSpecConstantFalse %bool",
-         "%2 = OpConstantFalse %bool"},
+         "%false = OpConstantFalse %bool"},
     })));
 
 using FreezeSpecConstantValueRemoveDecorationTest = PassTest<::testing::Test>;
@@ -88,7 +88,7 @@ TEST_F(FreezeSpecConstantValueRemoveDecorationTest,
         "%int = OpTypeInt 32 1",
           "%3 = OpSpecConstant %int 3",
       "%float = OpTypeFloat 32",
-          "%4 = OpSpecConstant %float 3.14",
+          "%4 = OpSpecConstant %float 3.1415",
      "%double = OpTypeFloat 64",
           "%5 = OpSpecConstant %double 3.14159265358979",
        "%bool = OpTypeBool",
@@ -105,12 +105,12 @@ TEST_F(FreezeSpecConstantValueRemoveDecorationTest,
   });
   std::vector<std::pair<const char*, const char*>> replacement_pairs = {
       {"%3 = OpSpecConstant %int 3", "%int_3 = OpConstant %int 3"},
-      {"%4 = OpSpecConstant %float 3.14",
-       "%float_3_14 = OpConstant %float 3.14"},
+      {"%4 = OpSpecConstant %float 3.1415",
+       "%float_3_1415 = OpConstant %float 3.1415"},
       {"%5 = OpSpecConstant %double 3.14159265358979",
        "%double_3_14159265358979 = OpConstant %double 3.14159265358979"},
-      {" OpSpecConstantTrue ", " OpConstantTrue "},
-      {" OpSpecConstantFalse ", " OpConstantFalse "},
+      {"%6 = OpSpecConstantTrue ", "%true = OpConstantTrue "},
+      {"%13 = OpSpecConstantFalse ", "%false = OpConstantFalse "},
   };
   for (auto& p : replacement_pairs) {
     EXPECT_TRUE(FindAndReplace(&expected_disassembly, p.first, p.second))

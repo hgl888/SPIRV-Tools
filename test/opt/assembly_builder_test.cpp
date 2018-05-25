@@ -66,7 +66,7 @@ TEST_F(AssemblyBuilderTest, ShaderWithConstants) {
             "%ui = OpConstant %uint 2",
          "%float = OpTypeFloat 32",
      "%_PF_float = OpTypePointer Function %float",
-             "%f = OpConstant %float 3.14",
+             "%f = OpConstant %float 3.1415",
         "%double = OpTypeFloat 64",
     "%_PF_double = OpTypePointer Function %double",
              "%d = OpConstant %double 3.14159265358979",
@@ -136,7 +136,7 @@ TEST_F(AssemblyBuilderTest, ShaderWithConstants) {
           "%ui = OpConstant %uint 2",
        "%float = OpTypeFloat 32",
    "%_PF_float = OpTypePointer Function %float",
-           "%f = OpConstant %float 3.14",
+           "%f = OpConstant %float 3.1415",
       "%double = OpTypeFloat 64",
   "%_PF_double = OpTypePointer Function %double",
            "%d = OpConstant %double 3.14159265358979",
@@ -166,16 +166,19 @@ TEST_F(AssemblyBuilderTest, ShaderWithConstants) {
 TEST_F(AssemblyBuilderTest, SpecConstants) {
   AssemblyBuilder builder;
   builder.AppendTypesConstantsGlobals({
-      "%bool = OpTypeBool", "%uint = OpTypeInt 32 0", "%int = OpTypeInt 32 1",
-      "%float = OpTypeFloat 32", "%double = OpTypeFloat 64",
+      "%bool = OpTypeBool",
+      "%uint = OpTypeInt 32 0",
+      "%int = OpTypeInt 32 1",
+      "%float = OpTypeFloat 32",
+      "%double = OpTypeFloat 64",
       "%v2int = OpTypeVector %int 2",
 
       "%spec_true = OpSpecConstantTrue %bool",
       "%spec_false = OpSpecConstantFalse %bool",
       "%spec_uint = OpSpecConstant %uint 1",
       "%spec_int = OpSpecConstant %int 1",
-      "%spec_float = OpSpecConstant %float 1.2",
-      "%spec_double = OpSpecConstant %double 1.23456789",
+      "%spec_float = OpSpecConstant %float 1.25",
+      "%spec_double = OpSpecConstant %double 1.2345678",
 
       // Spec constants defined below should not have SpecID.
       "%spec_add_op = OpSpecConstantOp %int IAdd %spec_int %spec_int",
@@ -226,8 +229,8 @@ TEST_F(AssemblyBuilderTest, SpecConstants) {
       "%spec_false = OpSpecConstantFalse %bool",
        "%spec_uint = OpSpecConstant %uint 1",
         "%spec_int = OpSpecConstant %int 1",
-      "%spec_float = OpSpecConstant %float 1.2",
-     "%spec_double = OpSpecConstant %double 1.23456789",
+      "%spec_float = OpSpecConstant %float 1.25",
+     "%spec_double = OpSpecConstant %double 1.2345678",
      "%spec_add_op = OpSpecConstantOp %int IAdd %spec_int %spec_int",
         "%spec_vec = OpSpecConstantComposite %v2int %spec_int %spec_int",
       "%spec_vec_x = OpSpecConstantOp %int CompositeExtract %spec_vec 0",
